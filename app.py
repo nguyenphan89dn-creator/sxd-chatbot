@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from openai import OpenAI
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
 import os
 
 app = FastAPI()
-
+@app.get("/web")
+def web():
+    return FileResponse("index.html")
 client = OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot Sở Xây dựng Đà Nẵng</title>
+
+<style>
+body{
+    font-family: Arial,sans-serif;
+    background:#f4f6f8;
+    margin:0;
+}
+
+.header{
+    background:#005bac;
+    color:white;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.chat-container{
+    max-width:900px;
+    margin:20px auto;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+#messages{
+    height:500px;
+    overflow-y:auto;
+    border:1px solid #ddd;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.user{
+    text-align:right;
+    margin:10px;
+}
+
+.bot{
+    text-align:left;
+    margin:10px;
+}
+
+.user span{
+    background:#005bac;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    display:inline-block;
+}
+
+.bot span{
+    background:#eeeeee;
+    padding:10px;
+    border-radius:10px;
+    display:inline-block;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:12px;
+}
+
+button{
+    background:#005bac;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Chatbot Sở Xây dựng Đà Nẵng
+</div>
+
+<div class="chat-container">
+
+<div id="messages"></div>
+
+<div class="input-area">
+<input id="question" placeholder="Nhập câu hỏi...">
+<button onclick="ask()">Gửi</button>
+</div>
+
+</div>
+
+<script>
+
+async function ask(){
+
+    let q=document.getElementById("question").value;
+
+    if(!q) return;
+
+    document.getElementById("messages").innerHTML +=
+        `<div class="user"><span>${q}</span></div>`;
+
+    document.getElementById("question").value="";
+
+    const response = await fetch(
+        "https://sxd-chatbot.onrender.com/chat",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                question:q
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    document.getElementById("messages").innerHTML +=
+        `<div class="bot"><span>${data.answer}</span></div>`;
+
+    document.getElementById("messages").scrollTop =
+        document.getElementById("messages").scrollHeight;
+}
+
+</script>
+
+</body>
+</html>

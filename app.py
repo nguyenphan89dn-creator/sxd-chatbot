@@ -20,7 +20,7 @@ def home():
 async def chat(req: ChatRequest):
 
     response = client.responses.create(
-        model="gpt-5.5-mini",
+        model="gpt-5.4-mini",
         input=req.question
     )
 
